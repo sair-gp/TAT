@@ -14,6 +14,8 @@ export const useCountdown = ({ duration, autoStart }: useCountdownProps) => {
 
   //Changes the state to start or stop the timer by using the updater function (prev)
   const handleStartStop = () => {
+    // Checks that the timer doesn't restart from zero. I mean, if its zero, then it'll do nothing
+    if (timeLeft === 0) return;
     //interval cleanup (just in case)
     if (intervalRef.current) clearInterval(intervalRef.current);
     setIsRunning((prev) => !prev);
@@ -47,5 +49,6 @@ export const useCountdown = ({ duration, autoStart }: useCountdownProps) => {
     };
   }, [isRunning]); // isRunning is set as a dependency so useEffect is executed everytime isRunning's value is updated
 
-  return [timeLeft, handleStartStop, handleReset, isRunning];
+  // Returns an object
+  return { timeLeft, handleStartStop, handleReset, isRunning };
 };
