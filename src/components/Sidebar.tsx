@@ -13,16 +13,21 @@ export const Sidebar = ({ className }: SidebarProps) => {
       )}
     >
       <div className="mb-1">
-        <SidebarIcon icon={<User />} text="Profile" sublabel="root" />
+        <SidebarIcon
+          icon={<User />}
+          text="Profile"
+          sublabel="root"
+          hover={true}
+        />
       </div>
       <div className="mb-1 w-full text-center">
         <span className="text-green-400 font-mono text-xs">-------</span>
       </div>
-      <SidebarIcon icon={<Terminal />} text="Dashboard" />
-      <SidebarIcon icon={<Clock />} text="Pomodoro" />
-      <SidebarIcon icon={<Bed />} text="Resting" />
+      <SidebarIcon icon={<Terminal />} text="Dashboard" hover={true} />
+      <SidebarIcon icon={<Clock />} text="Pomodoro" hover={true} />
+      <SidebarIcon icon={<Bed />} text="Resting" hover={true} />
       <div className="grow"></div>
-      <SidebarIcon icon={<Cog />} text="Settings" />
+      <SidebarIcon icon={<Cog />} text="Settings" hover={true} />
     </div>
   );
 };

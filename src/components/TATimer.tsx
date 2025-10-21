@@ -28,7 +28,7 @@ type TerminalTimerProps = {
 const TerminalTimer: React.FC<TerminalTimerProps> = ({
   duration,
   onComplete,
-  autoStart = true,
+  autoStart = false,
   showControls = true,
   color = "lime",
   background = "#0c0c0c",

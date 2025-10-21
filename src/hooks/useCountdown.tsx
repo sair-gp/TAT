@@ -3,14 +3,27 @@ import { useEffect, useState, useRef } from "react";
 interface useCountdownProps {
   duration: number;
   autoStart?: boolean;
+  step?: number;
+  intervalMs?: number;
+  onFinish?: () => void;
+  autoStartAfterReset?: boolean;
 }
 
-export const useCountdown = ({ duration, autoStart }: useCountdownProps) => {
+export const useCountdown = ({
+  duration,
+  autoStart,
+  intervalMs = 1000,
+  step = 1,
+  onFinish,
+  autoStartAfterReset = true,
+}: useCountdownProps) => {
   const [timeLeft, setTimeLeft] = useState(duration);
   const [isRunning, setIsRunning] = useState(autoStart ?? false);
   // using a ref to ensure access to the interval id
   const intervalRef = useRef<number | undefined>(undefined);
   //const timeRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  // Using a ref for onFinish to prevent stale closures
+  const onFinishRef = useRef(onFinish);
 
   //Changes the state to start or stop the timer by using the updater function (prev)
   const handleStartStop = () => {
@@ -25,23 +38,46 @@ export const useCountdown = ({ duration, autoStart }: useCountdownProps) => {
     // Interval cleanup. Necessary for reseting the timer
     if (intervalRef.current) clearInterval(intervalRef.current);
     setTimeLeft(duration);
-    setIsRunning(true);
+    // Detener explícitamente, para forzar el ciclo del useEffect
+    setIsRunning(false);
+
+    if (autoStartAfterReset) {
+      // Usar setTimeout para darle tiempo a React de procesar 'false' e inmediatamente establecer 'true' para reiniciar el useEffect
+      setTimeout(() => {
+        setIsRunning(true);
+      }, 50);
+    }
   };
+
+  const handleTimeFormat = (seconds: number) => {
+    const m = Math.floor(seconds / 60)
+      .toString()
+      .padStart(2, "0");
+    const s = (seconds % 60).toString().padStart(2, "0");
+    return `${m}:${s}`;
+  };
+
+  useEffect(() => {
+    // This runs once on mount, and whenever the external onFinish function changes.
+    onFinishRef.current = onFinish;
+  }, [onFinish]);
 
   useEffect(() => {
     if (isRunning === false) {
       return;
     }
+
     intervalRef.current = setInterval(() => {
       setTimeLeft((prevTime) => {
-        if (prevTime === 0) {
+        if (prevTime <= 0) {
           // Cleaning the interval and returning to ensure the timer stops at 0 and doesn't go down to -1
           clearInterval(intervalRef.current);
+          onFinishRef.current?.();
           return 0;
         }
-        return prevTime - 1;
+        return prevTime - step;
       });
-    }, 1000);
+    }, intervalMs);
 
     return () => {
       // Cleanup
@@ -50,5 +86,11 @@ export const useCountdown = ({ duration, autoStart }: useCountdownProps) => {
   }, [isRunning]); // isRunning is set as a dependency so useEffect is executed everytime isRunning's value is updated
 
   // Returns an object
-  return { timeLeft, handleStartStop, handleReset, isRunning };
+  return {
+    timeLeft,
+    handleStartStop,
+    handleReset,
+    isRunning,
+    handleTimeFormat,
+  };
 };

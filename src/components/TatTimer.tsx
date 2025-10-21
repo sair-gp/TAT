@@ -1,16 +1,20 @@
-import { Timer } from "lucide-react";
-import React from "react";
+import { Pause, Play, TimerReset } from "lucide-react";
+import { useCountdown } from "../hooks/useCountdown";
 
-interface TatTimerProps {
-  duration: number;
-  onComplete?: () => void;
-  autoStart?: boolean;
-  showControls?: boolean;
-  color?: string;
-  background?: string;
-}
+//import React from "react";
 
 const TatTimer = () => {
+  const {
+    timeLeft,
+    handleStartStop,
+    handleReset,
+    isRunning,
+    handleTimeFormat,
+  } = useCountdown({
+    duration: 25 * 60,
+    autoStart: false,
+  });
+
   return (
     <div
       className="flex flex-col"
@@ -30,8 +34,37 @@ const TatTimer = () => {
           <span style={{ color: "#39FF14" }}>:~$ timer</span>
         </h2>
       </div>
-      <div>
-        <Timer />
+      <div className="grid grid-cols-1">
+        <div className="flex flex-col justify-center items-center">
+          <h1 className="text-5xl" style={{ color: "#39FF14" }}>
+            {handleTimeFormat(timeLeft)}
+          </h1>
+          <div className="grid grid-cols-2 gap-8">
+            <button
+              onClick={handleStartStop}
+              className="terminal-text hover:cursor-pointer border-1 border-green-400 w-20 h-10"
+            >
+              {isRunning ? (
+                <span className="grid grid-cols-2 gap-2">
+                  {" "}
+                  Pause <Pause />
+                </span>
+              ) : (
+                <span className="grid grid-cols-2 gap-2">
+                  {" "}
+                  Play <Play />
+                </span>
+              )}
+            </button>
+
+            <button
+              onClick={handleReset}
+              className="text-orange-400 hover:cursor-pointer"
+            >
+              <TimerReset />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );

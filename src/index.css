@@ -59,6 +59,27 @@
   @apply font-mono h-12 w-12 mt-2 mb-2 mx-auto hover:cursor-pointer hover:bg-green-500 hover:text-black rounded-3xl hover:rounded-xl transition-all duration-300 ease-linear;
 }
 
+/*.home-card-item {
+  /* ... Clases de utilidad apiladas ... 
+  @apply 
+    flex 
+    flex-col 
+    font-mono 
+    p-8 
+    rounded-lg 
+    w-[320px] 
+    text-center;
+
+  /* Aplica las utilidades personalizadas que has creado 
+  @apply 
+    border 
+    border-hacker-border  
+    shadow-hacker-glow;    
+
+  /* Color de texto exacto 
+  color: #00FF00;
+}*/
+
 /* ----------------------------
    INPUTS & FORMULARIOS
 ---------------------------- */
