@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./pages/LandingPage.tsx";
 import { Dashboard } from "./pages/Dashboard.tsx";
 import NotFound from "./pages/NotFound.tsx";
+import PomodoroPage from "./pages/PomodoroPage.tsx";
+import { Home } from "lucide-react";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -13,8 +15,11 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />{" "}
+        <Route path="/" element={<LandingPage />} />{" "}
+        <Route path="/dashboard" element={<Dashboard />}>
+          <Route index element={<Home />} />
+          <Route path="pomodoro" element={<PomodoroPage />} />
+        </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

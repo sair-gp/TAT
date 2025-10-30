@@ -1,4 +1,5 @@
 import { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 
 export default function LandingPage() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -104,7 +105,7 @@ export default function LandingPage() {
         </p>
 
         <button className="bg-green-500 text-black px-6 py-3 rounded-xl text-lg font-bold hover:bg-green-400 transition-transform hover:scale-105">
-          Start (It's Free!)
+         <Link to="/dashboard" />Start (It's Free!)
         </button>
 
         <p className="mt-10 text-sm text-green-600">

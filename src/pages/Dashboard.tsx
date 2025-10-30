@@ -1,8 +1,9 @@
-import Home from "../components/Home";
+//import Home from "../components/Home";
 import { Sidebar } from "../components/Sidebar";
 import MobileSidebar from "../components/MobileSidebar";
 import { cn } from "../lib/utils";
 import TopRightMenu from "../components/TopRightMenu";
+import { Outlet } from "react-router-dom";
 
 export const Dashboard = () => {
   return (
@@ -17,7 +18,7 @@ export const Dashboard = () => {
 
       <main className="">
         {/* Dashboard */}
-        <Home />
+        <Outlet />
       </main>
       {/*  */}
     </div>
